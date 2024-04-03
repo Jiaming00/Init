@@ -3,6 +3,9 @@
     <TargetFramework>net8.0</TargetFramework> 
     <EnableDynamicLoading>true</EnableDynamicLoading> 
     <PublishAOT>true</PublishAOT>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!--  别忘了发布游戏时关闭这个溢出检查  -->
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow> 
   </PropertyGroup>
   <ItemGroup>
     <!-- Root the assemblies to avoid trimming. -->

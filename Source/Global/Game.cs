@@ -1,39 +1,58 @@
+ 
 using Godot;
 
 namespace AtomFlash;
 
 public class Game
 {
-    private static GodotLoop GodotLoop;
-    private static Game _Singleton;
-    private ulong _FrameStartUSec;
-
-    public Game(GodotLoop GodotLoop)
+    private static Loop _loop;
+    public static Loop Loop
     {
-        Game.GodotLoop = GodotLoop;
-        _Singleton = this;
+        get => _loop;
+        set => _loop ??= value;
     }
 
-    private static Game Singleton => _Singleton;
-    public static Window Window => GodotLoop.Root;
-    public static long FrameCurrent => GodotLoop.GetFrame();
-    public static ulong USecFrameStart => Singleton._FrameStartUSec;
+    
+    public static Window Window => Loop.Root;
+    public long VisionFrame { get; private set; }
+    public ulong USecVisionFrameBegin { get; private set; }
+    public ulong USecGameFrameBegin { get; private set; }
+
+    public Input.Main Input;
+     
 
 
-    public void Initialize()
+    public Game( )
+    { 
+    }
+
+    public void Ready()
     {
         
     }
-    public bool Porcess(double delta)
-    {
-        _FrameStartUSec = Time.GetTicksUsec();
 
+    public bool VisionFrameBegin(double delta)
+    {
+        VisionFrame = Loop.GetFrame();
+        USecVisionFrameBegin = Time.GetTicksUsec();
         return false;
     }
 
-    public void Finalize()
+    public bool Process(double delta)
+    {
+        USecGameFrameBegin = Time.GetTicksUsec();
+        DisplayServer.ProcessEvents();
+        return false;
+    }
+    
+    public bool VisionFrameEnd(double delta)
+    { 
+        return false;
+    }
+
+
+    ~Game()
     {
         
     }
-    
 }
